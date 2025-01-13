@@ -1,114 +1,112 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { useState, useEffect } from "react";
+import { Geist } from "next/font/google";
+import Link from "next/link";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const geist = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const titles = [
+  "基于人工智能的NLP教学辅助系统",
+  "基于大数据的财务决策支持系统",
+  "页岩气藏孔隙结构与流体力学研究系统",
+  "智能医疗影像分析与诊断辅助系统",
+  "工业物联网数据采集与分析平台"
+];
+
+// 动画时间配置（单位：毫秒）
+const TYPING_SPEED = 150;      // 打字速度
+const ERASING_SPEED = 75;      // 删除速度
+const PAUSE_BEFORE_ERASE = 3000;  // 打字完成后暂停时间
+const PAUSE_BEFORE_NEXT = 1000;   // 删除完成后暂停时间
 
 export default function Home() {
-  return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [currentTitle, setCurrentTitle] = useState("");
+  const [titleIndex, setTitleIndex] = useState(0);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    let currentIndex = 0;
+    const currentFullTitle = titles[titleIndex];
+    let timeoutId: NodeJS.Timeout;
+    
+    const typeCharacter = () => {
+      if (currentIndex < currentFullTitle.length) {
+        setCurrentTitle(currentFullTitle.slice(0, currentIndex + 1));
+        currentIndex++;
+        timeoutId = setTimeout(typeCharacter, TYPING_SPEED);
+      } else {
+        timeoutId = setTimeout(eraseTitle, PAUSE_BEFORE_ERASE);
+      }
+    };
+
+    const eraseTitle = () => {
+      if (currentIndex > 0) {
+        setCurrentTitle(prev => prev.slice(0, -1));
+        currentIndex--;
+        timeoutId = setTimeout(eraseTitle, ERASING_SPEED);
+      } else {
+        timeoutId = setTimeout(() => {
+          setTitleIndex(prev => (prev + 1) % titles.length);
+        }, PAUSE_BEFORE_NEXT);
+      }
+    };
+
+    typeCharacter();
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [titleIndex]);
+
+  return (
+    <div className={`${geist.className} min-h-screen flex flex-col items-center justify-center relative overflow-hidden`}>
+      {/* Background Decorations */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 -left-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000" />
+      </div>
+
+      <main className="max-w-4xl mx-auto px-4 text-center z-10">
+        <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">
+          易著
+        </h1>
+        
+        <h2 className="text-2xl mb-12 text-foreground/80">
+          你给题目，秒出软著
+        </h2>
+
+        <div className="mb-12 flex items-center justify-center text-lg">
+          <span>写一个题为</span>
+          <span className="title-input mx-2 relative">
+            《{currentTitle}
+            <span className="typing-cursor" />
+            》
+          </span>
+          <span>的软著</span>
         </div>
+
+        <Link 
+          href="/generate"
+          className="btn-primary inline-flex items-center group"
+        >
+          开始尝试
+          <svg 
+            className="ml-2 w-4 h-4 transform transition-transform group-hover:translate-x-1" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M13 7l5 5m0 0l-5 5m5-5H6" 
+            />
+          </svg>
+        </Link>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
