@@ -248,20 +248,28 @@ export default function Home() {
                             whiteSpace: 'pre-wrap',
                             lineHeight: 1.4,
                             textAlign: 'center',
-                            '&::after': {
-                              content: '""',
-                              position: 'absolute',
-                              right: '-2px',
-                              top: '50%',
-                              transform: 'translateY(-50%)',
-                              width: '2px',
-                              height: '1.2em',
-                              bgcolor: theme.palette.primary.main,
-                              animation: 'blink 0.7s infinite',
-                            },
                           }}
                         >
-                          《{currentTitle}》
+                          《{currentTitle}
+                          <Box
+                            component="span"
+                            sx={{
+                              position: 'relative',
+                              '&::after': {
+                                content: '""',
+                                position: 'absolute',
+                                right: '-2px',
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                width: '2px',
+                                height: '1.2em',
+                                bgcolor: theme.palette.primary.main,
+                                animation: 'blink 0.7s infinite',
+                              },
+                            }}
+                          >
+                          </Box>
+                          》
                         </Box>
                       </Box>
                       
