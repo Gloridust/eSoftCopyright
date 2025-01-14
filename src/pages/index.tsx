@@ -35,11 +35,11 @@ const titles = [
   "工业物联网数据采集分析平台"
 ];
 
-// 动画时间配置（单位：毫秒）
-const TYPING_SPEED = 150;      // 打字速度
-const ERASING_SPEED = 75;      // 删除速度
+// 动画时间配置（单位：毫秒）越大越慢
+const TYPING_SPEED = 100;      // 打字速度
+const ERASING_SPEED = 50;      // 删除速度
 const PAUSE_BEFORE_ERASE = 3000;  // 打字完成后暂停时间
-const PAUSE_BEFORE_NEXT = 1000;   // 删除完成后暂停时间
+const PAUSE_BEFORE_NEXT = 500;   // 删除完成后暂停时间
 
 export default function Home() {
   const theme = useTheme();
