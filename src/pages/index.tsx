@@ -157,127 +157,141 @@ export default function Home() {
             <Grid container spacing={6} alignItems="center">
               {/* 左侧文字区域 */}
               <Grid item xs={12} md={6}>
-                <Typography
-                  variant="h1"
-                  component="h1"
-                  sx={{
-                    background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
-                    backgroundClip: 'text',
-                    color: 'transparent',
-                    mb: 2,
-                  }}
-                >
-                  易著
-                </Typography>
-                
-                <Typography variant="h2" color="text.secondary" sx={{ mb: 4 }}>
-                  你给题目，秒出软著
-                </Typography>
-
-                <Box 
-                  sx={{ 
-                    mb: 4, 
-                    typography: 'h3',
-                    width: '100%',
-                  }}
-                >
-                  <Box
+                <Box sx={{ 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: { xs: 'center', md: 'flex-start' },
+                  textAlign: { xs: 'center', md: 'left' }
+                }}>
+                  <Typography
+                    variant="h1"
+                    component="h1"
                     sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 2,
-                      alignItems: { xs: 'center', md: 'flex-start' },
-                      p: 3,
-                      borderRadius: 3,
-                      bgcolor: alpha(theme.palette.background.paper, 0.6),
-                      backdropFilter: 'blur(8px)',
-                      border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
-                      boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.08)}`,
+                      background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
+                      backgroundClip: 'text',
+                      color: 'transparent',
+                      mb: 2,
                     }}
                   >
-                    <Typography 
-                      component="span" 
-                      sx={{
-                        color: alpha(theme.palette.text.primary, 0.85),
-                        fontWeight: 500,
-                      }}
-                    >
-                      写一个题为
-                    </Typography>
-                    
+                    易著
+                  </Typography>
+                  
+                  <Typography variant="h2" color="text.secondary" sx={{ mb: 4 }}>
+                    你给题目，秒出软著
+                  </Typography>
+
+                  <Box 
+                    sx={{ 
+                      mb: 4, 
+                      typography: 'h3',
+                      width: '100%',
+                    }}
+                  >
                     <Box
-                      component="span"
                       sx={{
-                        position: 'relative',
-                        color: theme.palette.primary.main,
-                        fontWeight: 600,
-                        fontSize: '1.25rem',
-                        px: 3,
-                        py: 2,
-                        borderRadius: 2,
-                        bgcolor: alpha(theme.palette.primary.main, 0.05),
-                        border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
-                        minHeight: '2.5em',
                         display: 'flex',
+                        flexDirection: 'column',
+                        gap: 2,
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        width: { xs: '90%', sm: '80%', md: '90%' },
-                        maxWidth: '100%',
-                        boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.08)}`,
-                        transition: 'all 0.3s ease-in-out',
-                        '&:hover': {
-                          boxShadow: `0 6px 16px ${alpha(theme.palette.primary.main, 0.12)}`,
-                          transform: 'translateY(-1px)',
-                        },
+                        p: 3,
+                        borderRadius: 3,
+                        bgcolor: alpha(theme.palette.background.paper, 0.6),
+                        backdropFilter: 'blur(8px)',
+                        border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+                        boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.08)}`,
                       }}
                     >
-                      《
+                      <Typography 
+                        component="span" 
+                        sx={{
+                          color: alpha(theme.palette.text.primary, 0.85),
+                          fontWeight: 500,
+                        }}
+                      >
+                        写一个题为
+                      </Typography>
+                      
                       <Box
                         component="span"
                         sx={{
                           position: 'relative',
-                          '&::after': {
-                            content: '""',
-                            position: 'absolute',
-                            right: '-2px',
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                            width: '2px',
-                            height: '1.2em',
-                            bgcolor: theme.palette.primary.main,
-                            animation: 'blink 0.7s infinite',
+                          color: theme.palette.primary.main,
+                          fontWeight: 600,
+                          fontSize: '1.25rem',
+                          px: 3,
+                          py: 2,
+                          borderRadius: 2,
+                          bgcolor: alpha(theme.palette.primary.main, 0.05),
+                          border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+                          minHeight: '2.5em',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: { xs: '90%', sm: '80%', md: '90%' },
+                          maxWidth: '100%',
+                          boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.08)}`,
+                          transition: 'all 0.3s ease-in-out',
+                          '&:hover': {
+                            boxShadow: `0 6px 16px ${alpha(theme.palette.primary.main, 0.12)}`,
+                            transform: 'translateY(-1px)',
                           },
                         }}
                       >
-                        {currentTitle}
+                        《
+                        <Box
+                          component="span"
+                          sx={{
+                            position: 'relative',
+                            display: 'inline-block',
+                            minWidth: '4em',
+                            maxWidth: '100%',
+                            wordBreak: 'break-all',
+                            whiteSpace: 'pre-wrap',
+                            lineHeight: 1.4,
+                            textAlign: 'center',
+                            '&::after': {
+                              content: '""',
+                              position: 'absolute',
+                              right: '-2px',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              width: '2px',
+                              height: '1.2em',
+                              bgcolor: theme.palette.primary.main,
+                              animation: 'blink 0.7s infinite',
+                            },
+                          }}
+                        >
+                          {currentTitle}
+                        </Box>
+                        》
                       </Box>
-                      》
+                      
+                      <Typography 
+                        component="span" 
+                        sx={{
+                          color: alpha(theme.palette.text.primary, 0.85),
+                          fontWeight: 500,
+                        }}
+                      >
+                        的软著
+                      </Typography>
                     </Box>
-                    
-                    <Typography 
-                      component="span" 
-                      sx={{
-                        color: alpha(theme.palette.text.primary, 0.85),
-                        fontWeight: 500,
-                      }}
-                    >
-                      的软著
-                    </Typography>
                   </Box>
-                </Box>
 
-                <Button
-                  component={Link}
-                  href="/generate"
-                  variant="contained"
-                  size="large"
-                  sx={{
-                    minWidth: 200,
-                    height: 56,
-                  }}
-                >
-                  开始尝试
-                </Button>
+                  <Button
+                    component={Link}
+                    href="/generate"
+                    variant="contained"
+                    size="large"
+                    sx={{
+                      minWidth: 200,
+                      height: 56,
+                    }}
+                  >
+                    开始尝试
+                  </Button>
+                </Box>
               </Grid>
 
               {/* 右侧截图展示 */}
@@ -353,7 +367,7 @@ export default function Home() {
                         </Box>
                       </Fade>
                     )}
-                    <Image
+          <Image
                       src="/screenshot.png"
                       alt="易著软件截图"
                       fill
