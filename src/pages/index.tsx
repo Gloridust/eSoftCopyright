@@ -1,17 +1,36 @@
 import { useState, useEffect } from "react";
 import { Geist } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image";
+import SEO from "@/components/SEO";
+import Footer from "@/components/Footer";
+import {
+  Container,
+  Typography,
+  Button,
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  useTheme,
+  alpha,
+} from '@mui/material';
+import {
+  Speed as SpeedIcon,
+  Security as SecurityIcon,
+  TrendingUp as TrendingUpIcon,
+} from '@mui/icons-material';
 
 const geist = Geist({
   subsets: ["latin"],
 });
 
 const titles = [
-  "基于人工智能的NLP教学辅助系统",
-  "基于大数据的财务决策支持系统",
-  "页岩气藏孔隙结构与流体力学研究系统",
-  "智能医疗影像分析与诊断辅助系统",
-  "工业物联网数据采集与分析平台"
+  "基于人工智能的教学辅助系统",
+  "基于大数据的财务决策系统",
+  "页岩孔隙流体力学研究系统",
+  "智能医疗影像分析与诊断系统",
+  "工业物联网数据采集分析平台"
 ];
 
 // 动画时间配置（单位：毫秒）
@@ -21,8 +40,57 @@ const PAUSE_BEFORE_ERASE = 3000;  // 打字完成后暂停时间
 const PAUSE_BEFORE_NEXT = 1000;   // 删除完成后暂停时间
 
 export default function Home() {
+  const theme = useTheme();
   const [currentTitle, setCurrentTitle] = useState("");
   const [titleIndex, setTitleIndex] = useState(0);
+
+  // 添加鼠标移动效果
+  useEffect(() => {
+    const container = document.getElementById('screenshot-container');
+    if (!container) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      // 计算鼠标位置相对于图片中心的距离
+      const deltaX = e.clientX - centerX;
+      const deltaY = e.clientY - centerY;
+      
+      // 计算旋转角度（最大10度），根据距离衰减
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      const maxDistance = Math.max(window.innerWidth, window.innerHeight) / 2;
+      const factor = Math.min(1, distance / maxDistance);
+      
+      const rotateX = -(deltaY / maxDistance) * 10 * factor;
+      const rotateY = (deltaX / maxDistance) * 10 * factor;
+      
+      container.style.transform = `
+        perspective(1000px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+      `;
+    };
+
+    const handleMouseLeave = () => {
+      // 平滑回到原始位置
+      container.style.transition = 'transform 0.5s ease-out';
+      container.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+      setTimeout(() => {
+        container.style.transition = 'transform 0.1s ease-out';
+      }, 500);
+    };
+
+    // 监听整个窗口的鼠标移动
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
 
   useEffect(() => {
     let currentIndex = 0;
@@ -61,52 +129,338 @@ export default function Home() {
   }, [titleIndex]);
 
   return (
-    <div className={`${geist.className} min-h-screen flex flex-col items-center justify-center relative overflow-hidden`}>
-      {/* Background Decorations */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 -left-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl animate-pulse delay-1000" />
-      </div>
-
-      <main className="max-w-4xl mx-auto px-4 text-center z-10">
-        <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">
-          易著
-        </h1>
-        
-        <h2 className="text-2xl mb-12 text-foreground/80">
-          你给题目，秒出软著
-        </h2>
-
-        <div className="mb-12 flex items-center justify-center text-lg">
-          <span>写一个题为</span>
-          <span className="title-input mx-2 relative">
-            《{currentTitle}
-            <span className="typing-cursor" />
-            》
-          </span>
-          <span>的软著</span>
-        </div>
-
-        <Link 
-          href="/generate"
-          className="btn-primary inline-flex items-center group"
+    <>
+      <SEO />
+      <Box className={geist.className} sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        {/* Hero Section */}
+        <Box
+          sx={{
+            position: 'relative',
+            overflow: 'hidden',
+            pt: { xs: 12, md: 16 },
+            pb: { xs: 8, md: 12 },
+          }}
         >
-          开始尝试
-          <svg 
-            className="ml-2 w-4 h-4 transform transition-transform group-hover:translate-x-1" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M13 7l5 5m0 0l-5 5m5-5H6" 
-            />
-          </svg>
-        </Link>
-      </main>
-    </div>
+          {/* 背景装饰 */}
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              background: `linear-gradient(180deg, ${alpha(theme.palette.primary.light, 0.08)} 0%, ${alpha(theme.palette.background.default, 1)} 100%)`,
+              zIndex: -1,
+            }}
+          />
+          <Container maxWidth="lg">
+            <Grid container spacing={6} alignItems="center">
+              {/* 左侧文字区域 */}
+              <Grid item xs={12} md={6}>
+                <Typography
+                  variant="h1"
+                  component="h1"
+                  sx={{
+                    background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
+                    backgroundClip: 'text',
+                    color: 'transparent',
+                    mb: 2,
+                  }}
+                >
+                  易著
+                </Typography>
+                
+                <Typography variant="h2" color="text.secondary" sx={{ mb: 4 }}>
+                  你给题目，秒出软著
+                </Typography>
+
+                <Box 
+                  sx={{ 
+                    mb: 4, 
+                    typography: 'h3',
+                    width: '100%',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 2,
+                      alignItems: { xs: 'center', md: 'flex-start' },
+                      p: 3,
+                      borderRadius: 3,
+                      bgcolor: alpha(theme.palette.background.paper, 0.6),
+                      backdropFilter: 'blur(8px)',
+                      border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+                      boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.08)}`,
+                    }}
+                  >
+                    <Typography 
+                      component="span" 
+                      sx={{
+                        color: alpha(theme.palette.text.primary, 0.85),
+                        fontWeight: 500,
+                      }}
+                    >
+                      写一个题为
+                    </Typography>
+                    
+                    <Box
+                      component="span"
+                      sx={{
+                        position: 'relative',
+                        color: theme.palette.primary.main,
+                        fontWeight: 600,
+                        fontSize: '1.25rem',
+                        px: 3,
+                        py: 2,
+                        borderRadius: 2,
+                        bgcolor: alpha(theme.palette.primary.main, 0.05),
+                        border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+                        minHeight: '2.5em',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: { xs: '90%', sm: '80%', md: '90%' },
+                        maxWidth: '100%',
+                        boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.08)}`,
+                        transition: 'all 0.3s ease-in-out',
+                        '&:hover': {
+                          boxShadow: `0 6px 16px ${alpha(theme.palette.primary.main, 0.12)}`,
+                          transform: 'translateY(-1px)',
+                        },
+                      }}
+                    >
+                      《
+                      <Box
+                        component="span"
+                        sx={{
+                          position: 'relative',
+                          '&::after': {
+                            content: '""',
+                            position: 'absolute',
+                            right: '-2px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            width: '2px',
+                            height: '1.2em',
+                            bgcolor: theme.palette.primary.main,
+                            animation: 'blink 0.7s infinite',
+                          },
+                        }}
+                      >
+                        {currentTitle}
+                      </Box>
+                      》
+                    </Box>
+                    
+                    <Typography 
+                      component="span" 
+                      sx={{
+                        color: alpha(theme.palette.text.primary, 0.85),
+                        fontWeight: 500,
+                      }}
+                    >
+                      的软著
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Button
+                  component={Link}
+                  href="/generate"
+                  variant="contained"
+                  size="large"
+                  sx={{
+                    minWidth: 200,
+                    height: 56,
+                  }}
+                >
+                  开始尝试
+                </Button>
+              </Grid>
+
+              {/* 右侧截图展示 */}
+              <Grid item xs={12} md={6}>
+                <Box
+                  sx={{
+                    position: 'relative',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      inset: '-10%',
+                      background: `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.1)} 0%, transparent 70%)`,
+                      borderRadius: '50%',
+                    },
+                  }}
+                >
+                  <Box
+                    id="screenshot-container"
+                    sx={{
+                      position: 'relative',
+                      aspectRatio: '4/3',
+                      transform: 'perspective(1000px)',
+                      transition: 'transform 0.1s ease-out',
+                      transformStyle: 'preserve-3d',
+                    }}
+                  >
+                    <Image
+                      src="/screenshot.png"
+                      alt="易著软件截图"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </Container>
+        </Box>
+
+        {/* 特性介绍 */}
+        <Box
+          component="section"
+          sx={{
+            position: 'relative',
+            py: { xs: 8, md: 12 },
+            background: alpha(theme.palette.primary.light, 0.03),
+          }}
+        >
+          <Container maxWidth="lg">
+            <Typography
+              variant="h2"
+              align="center"
+              sx={{
+                mb: 2,
+                background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.primary.light})`,
+                backgroundClip: 'text',
+                color: 'transparent',
+              }}
+            >
+              为什么选择易著？
+            </Typography>
+            
+            <Typography
+              variant="h3"
+              align="center"
+              color="text.secondary"
+              sx={{ mb: 8 }}
+            >
+              专业的软著生成工具，让您的创作更轻松、更高效
+            </Typography>
+            
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={4}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: theme.shadows[8],
+                    },
+                  }}
+                >
+                  <CardContent sx={{ p: 4 }}>
+                    <Box
+                      sx={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: 2,
+                        bgcolor: alpha(theme.palette.primary.main, 0.1),
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mb: 3,
+                      }}
+                    >
+                      <SpeedIcon color="primary" sx={{ fontSize: 32 }} />
+                    </Box>
+                    <Typography variant="h3" gutterBottom>
+                      快速生成
+                    </Typography>
+                    <Typography color="text.secondary">
+                      基于AI技术，几分钟内即可生成完整的软著文档，省时省力。
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: theme.shadows[8],
+                    },
+                  }}
+                >
+                  <CardContent sx={{ p: 4 }}>
+                    <Box
+                      sx={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: 2,
+                        bgcolor: alpha(theme.palette.primary.main, 0.1),
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mb: 3,
+                      }}
+                    >
+                      <SecurityIcon color="primary" sx={{ fontSize: 32 }} />
+                    </Box>
+                    <Typography variant="h3" gutterBottom>
+                      专业规范
+                    </Typography>
+                    <Typography color="text.secondary">
+                      严格遵循软著申请规范，确保生成的文档符合要求。
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              <Grid item xs={12} md={4}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: theme.shadows[8],
+                    },
+                  }}
+                >
+                  <CardContent sx={{ p: 4 }}>
+                    <Box
+                      sx={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: 2,
+                        bgcolor: alpha(theme.palette.primary.main, 0.1),
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mb: 3,
+                      }}
+                    >
+                      <TrendingUpIcon color="primary" sx={{ fontSize: 32 }} />
+                    </Box>
+                    <Typography variant="h3" gutterBottom>
+                      智能优化
+                    </Typography>
+                    <Typography color="text.secondary">
+                      自动优化文档结构和内容，提高软著通过率。
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Container>
+        </Box>
+
+        <Footer />
+      </Box>
+    </>
   );
 }

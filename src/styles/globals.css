@@ -17,7 +17,7 @@ body {
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white px-6 py-3 rounded-lg transition-all hover:bg-primary-hover hover:shadow-lg;
+    @apply bg-primary text-white px-6 py-3 rounded-xl transition-all hover:bg-primary-hover hover:shadow-lg hover:scale-[1.02];
   }
   
   .title-input {

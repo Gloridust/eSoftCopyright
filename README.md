@@ -1,40 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 易著 - AI自动软著生成平台
 
-## Getting Started
+基于 Next.js 和 AI 技术的软件著作权文档生成平台。
 
-First, run the development server:
+## 技术栈
+
+- Next.js 15.1.4
+- TypeScript
+- Tailwind CSS
+- React
+
+## 开发要点
+
+### 设计风格
+- 扁平化、科技感
+- 简洁优雅的界面设计
+- 主色调：#2563eb（蓝色）
+- 动效：适度的过渡动画和交互反馈
+
+### SEO 优化
+- 完整的 meta 标签
+- Open Graph 协议支持
+- 结构化数据标记
+- 合理的语义化标签
+- 响应式设计适配
+
+### PWA 支持
+需要准备的资源：
+- [ ] icon-192x192.png
+- [ ] icon-512x512.png
+- [ ] screenshot.png
+- [x] manifest.json
+
+### 页面规划
+- [x] 首页 (/)
+  - 动态打字效果
+  - 产品特性展示
+  - 响应式布局
+- [ ] 生成页面 (/generate)
+  - 表单设计
+  - 生成流程
+  - 预览功能
+- [ ] 关于页面 (/about)
+
+### 性能优化
+- 图片优化
+  - next/image 组件
+  - 合适的图片格式
+  - 响应式图片
+- 代码分割
+- 静态生成
+- 增量静态再生成
+
+### 待办事项
+- [ ] 完善错误处理
+- [ ] 添加加载状态
+- [ ] 实现生成页面
+- [ ] 优化动画性能
+- [ ] 添加用户反馈
+- [ ] 完善文档说明
+
+## 本地开发
 
 ```bash
-npm run dev
-# or
+# 安装依赖
+yarn install
+
+# 启动开发服务器
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 构建生产版本
+yarn build
+
+# 启动生产服务器
+yarn start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 目录结构
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  ├── components/     # 可复用组件
+  ├── pages/         # 页面组件
+  ├── styles/        # 样式文件
+  └── utils/         # 工具函数
+public/             # 静态资源
+  ├── icons/        # 图标文件
+  └── images/       # 图片资源
+```
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 注意事项
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+1. 代码规范
+   - 使用 TypeScript 类型检查
+   - 遵循 ESLint 规则
+   - 保持代码整洁和注释完整
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. 性能考虑
+   - 合理使用缓存
+   - 优化首屏加载
+   - 减少不必要的重渲染
 
-## Learn More
+3. 设计原则
+   - 保持界面简洁
+   - 注重用户体验
+   - 合理的视觉层次
 
-To learn more about Next.js, take a look at the following resources:
+## 贡献指南
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+1. Fork 项目
+2. 创建特性分支
+3. 提交更改
+4. 推送到分支
+5. 创建 Pull Request
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 许可证
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+MIT License
