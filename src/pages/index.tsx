@@ -14,6 +14,8 @@ import {
   Grid,
   useTheme,
   alpha,
+  CircularProgress,
+  Fade,
 } from '@mui/material';
 import {
   Speed as SpeedIcon,
@@ -43,6 +45,7 @@ export default function Home() {
   const theme = useTheme();
   const [currentTitle, setCurrentTitle] = useState("");
   const [titleIndex, setTitleIndex] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   // 添加鼠标移动效果
   useEffect(() => {
@@ -301,12 +304,66 @@ export default function Home() {
                       transformStyle: 'preserve-3d',
                     }}
                   >
+                    {!imageLoaded && (
+                      <Fade in={!imageLoaded}>
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            inset: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            bgcolor: alpha(theme.palette.background.paper, 0.8),
+                            backdropFilter: 'blur(8px)',
+                            borderRadius: 2,
+                            border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+                          }}
+                        >
+                          <Box sx={{ position: 'relative' }}>
+                            <CircularProgress
+                              size={48}
+                              sx={{
+                                color: theme.palette.primary.main,
+                              }}
+                            />
+                            <Box
+                              sx={{
+                                position: 'absolute',
+                                inset: -8,
+                                borderRadius: '50%',
+                                background: `radial-gradient(circle, ${alpha(theme.palette.primary.main, 0.1)} 0%, transparent 70%)`,
+                                animation: 'pulse 2s infinite',
+                                '@keyframes pulse': {
+                                  '0%': {
+                                    transform: 'scale(0.95)',
+                                    opacity: 0.5,
+                                  },
+                                  '70%': {
+                                    transform: 'scale(1.1)',
+                                    opacity: 0.2,
+                                  },
+                                  '100%': {
+                                    transform: 'scale(0.95)',
+                                    opacity: 0.5,
+                                  },
+                                },
+                              }}
+                            />
+                          </Box>
+                        </Box>
+                      </Fade>
+                    )}
                     <Image
                       src="/screenshot.png"
                       alt="易著软件截图"
                       fill
                       className="object-contain"
                       priority
+                      onLoadingComplete={() => setImageLoaded(true)}
+                      style={{
+                        opacity: imageLoaded ? 1 : 0,
+                        transition: 'opacity 0.3s ease-in-out',
+                      }}
                     />
                   </Box>
                 </Box>
