@@ -237,7 +237,6 @@ export default function Home() {
                           },
                         }}
                       >
-                        《
                         <Box
                           component="span"
                           sx={{
@@ -262,9 +261,8 @@ export default function Home() {
                             },
                           }}
                         >
-                          {currentTitle}
+                          《{currentTitle}》
                         </Box>
-                        》
                       </Box>
                       
                       <Typography 
