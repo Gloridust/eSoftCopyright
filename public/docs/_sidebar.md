@@ -1,5 +1,5 @@
 * [首页](/)
-* [快速开始](/quickstart.md)
+* [收费标准](/price.md)
 * [使用指南](/guide.md)
   * [软著标题生成](/guide/title.md)
   * [项目规划生成](/guide/planning.md)
