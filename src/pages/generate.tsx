@@ -87,6 +87,7 @@ export default function Generate() {
   const [aiPrompt, setAiPrompt] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isTitleGenerating, setIsTitleGenerating] = useState(false);
   const [generateError, setGenerateError] = useState('');
   const [generationStatus, setGenerationStatus] = useState<GenerationStatus>({
     planning: 'waiting',
@@ -142,7 +143,7 @@ export default function Generate() {
       return;
     }
 
-    setIsGenerating(true);
+    setIsTitleGenerating(true);
     setGenerateError('');
     try {
       const response = await fetch('/api/generate-title', {
@@ -175,7 +176,7 @@ export default function Generate() {
       console.error('生成标题失败:', error);
       setGenerateError(error instanceof Error ? error.message : '生成标题失败，请稍后重试');
     } finally {
-      setIsGenerating(false);
+      setIsTitleGenerating(false);
     }
   };
 
@@ -519,7 +520,7 @@ export default function Generate() {
 
   return (
     <>
-      <SEO title="生成软著 - 易著" description="填写表单，快速生成软著" />
+      <SEO title="生成软著 - 易著AI" description="填写表单，快速生成软著" />
       {isGenerating ? (
         <Box 
           className={geist.className} 
@@ -709,6 +710,7 @@ export default function Generate() {
                       </Box>
                     )}
                   </Box>
+                  <Alert severity="info" sx={{ mt: 2, mb: 2 }}>不知道如何起名？点击右侧魔法棒图标获取备帮助</Alert>
                 </Box>
               </Fade>
 
@@ -861,9 +863,9 @@ export default function Generate() {
           <Button
             variant="contained"
             onClick={handleGenerateTitle}
-            disabled={!aiPrompt || isGenerating}
+            disabled={!aiPrompt || isTitleGenerating}
           >
-            {isGenerating ? '生成中...' : '生成标题'}
+            {isTitleGenerating ? '生成中...' : '生成标题'}
           </Button>
         </DialogActions>
       </Dialog>

@@ -38,7 +38,7 @@ export default async function handler(
 6. 如果是后端软件，详细设计API接口和数据处理流程
 7. 考虑可能需要的算法或机器学习模型
 
-请用详细的文字描述你的规划，确保内容充实且专业。使用 Markdown 格式输出，包含适当的标题、列表和代码块。`;
+请用详细的文字描述你的规划，确保内容充实且专业。使用 Markdown 格式输出，包含适当的标题、列表和代码块。直接开始输出项目规划内容，不用输出其他无关语句。`;
 
     // 创建流式响应
     const stream = await openai.chat.completions.create({
