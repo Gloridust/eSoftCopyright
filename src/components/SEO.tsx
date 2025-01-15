@@ -9,7 +9,7 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({
-  title = '易著 - AI自动软著生成平台',
+  title = '易著AI - 自动软著生成平台',
   description = '一款智能AI软件著作权文档生成工具，几分钟内即可生成符合规范的软著文档。提供快速生成、专业规范、智能优化等功能，让软著申请更轻松。',
   keywords = '软件著作权,软著,大创,创新创业,AI生成,软著申请,软著生成,知识产权,软件登记,易著',
   ogImage = '/og-image.png',
@@ -58,7 +58,7 @@ const SEO: React.FC<SEOProps> = ({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            "name": "易著",
+            "name": "易著AI",
             "description": description,
             "url": siteUrl,
             "applicationCategory": "BusinessApplication",

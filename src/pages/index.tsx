@@ -173,7 +173,7 @@ export default function Home() {
                       mb: 2,
                     }}
                   >
-                    易著
+                    易著AI
                   </Typography>
                   
                   <Typography variant="h2" color="text.secondary" sx={{ mb: 4 }}>
@@ -412,7 +412,7 @@ export default function Home() {
                 color: 'transparent',
               }}
             >
-              为什么选择易著？
+              为什么选择易著AI？
             </Typography>
             
             <Typography

@@ -67,6 +67,13 @@ const Header: React.FC = () => {
                 生成
               </Link>
               <Link 
+                href="/docs" 
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                文档
+              </Link>
+              <Link 
                 href="/about" 
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -94,6 +101,14 @@ const Header: React.FC = () => {
                 className="hover:text-primary transition-colors duration-200"
               >
                 生成软著
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/docs" 
+                className="hover:text-primary transition-colors duration-200"
+              >
+                使用文档
               </Link>
             </li>
             <li>
