@@ -89,6 +89,14 @@ export default function Generate() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isTitleGenerating, setIsTitleGenerating] = useState(false);
   const [generateError, setGenerateError] = useState('');
+  const [errorDetails, setErrorDetails] = useState<{
+    message: string;
+    details: {
+      responseText?: string;
+      parseError?: string;
+    } | null;
+  }>({ message: '', details: null });
+  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
   const [generationStatus, setGenerationStatus] = useState<GenerationStatus>({
     planning: 'waiting',
     code: 'waiting',
@@ -145,6 +153,7 @@ export default function Generate() {
 
     setIsTitleGenerating(true);
     setGenerateError('');
+    setErrorDetails({ message: '', details: null });
     try {
       const response = await fetch('/api/generate-title', {
         method: 'POST',
@@ -154,23 +163,37 @@ export default function Generate() {
         body: JSON.stringify({ prompt: aiPrompt }),
       });
 
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || '生成标题失败');
-      }
-
-      if (data.title) {
-        const isValid = validateTitle(data.title);
-        if (isValid) {
-          setTitle(data.title);
-          setIsAIDialogOpen(false);
-          setAiPrompt('');
-        } else {
-          throw new Error('AI 生成的标题不符合要求，请重试');
+      let responseText;
+      try {
+        responseText = await response.text();
+        const data = JSON.parse(responseText);
+        
+        if (!response.ok) {
+          throw new Error(data.error || '生成标题失败');
         }
-      } else {
-        throw new Error('未能生成有效的标题');
+
+        if (data.title) {
+          const isValid = validateTitle(data.title);
+          if (isValid) {
+            setTitle(data.title);
+            setIsAIDialogOpen(false);
+            setAiPrompt('');
+          } else {
+            throw new Error('AI 生成的标题不符合要求，请重试');
+          }
+        } else {
+          throw new Error('未能生成有效的标题');
+        }
+      } catch (parseError) {
+        console.error('解析响应失败:', parseError);
+        setErrorDetails({
+          message: '解析响应数据失败',
+          details: {
+            responseText,
+            parseError: parseError instanceof Error ? parseError.message : String(parseError)
+          }
+        });
+        throw new Error('解析响应数据失败，点击详情查看具体错误');
       }
     } catch (error) {
       console.error('生成标题失败:', error);
@@ -823,7 +846,21 @@ export default function Generate() {
             sx={{ mb: 2 }}
           />
           {generateError && (
-            <Alert severity="error" sx={{ mb: 2 }}>
+            <Alert 
+              severity="error" 
+              sx={{ mb: 2 }}
+              action={
+                errorDetails.details && (
+                  <Button 
+                    color="inherit" 
+                    size="small"
+                    onClick={() => setIsErrorDialogOpen(true)}
+                  >
+                    详情
+                  </Button>
+                )
+              }
+            >
               {generateError}
             </Alert>
           )}
@@ -840,6 +877,47 @@ export default function Generate() {
           >
             {isTitleGenerating ? '生成中...' : '生成标题'}
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* 错误详情对话框 */}
+      <Dialog
+        open={isErrorDialogOpen}
+        onClose={() => setIsErrorDialogOpen(false)}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>错误详情</DialogTitle>
+        <DialogContent>
+          <Typography variant="h6" gutterBottom>
+            {errorDetails.message}
+          </Typography>
+          <Box
+            component="pre"
+            sx={{
+              p: 2,
+              borderRadius: 1,
+              bgcolor: alpha(theme.palette.error.main, 0.05),
+              border: `1px solid ${alpha(theme.palette.error.main, 0.1)}`,
+              overflow: 'auto',
+              maxHeight: '400px',
+              '& code': {
+                fontFamily: 'monospace',
+                fontSize: '0.875rem',
+                lineHeight: 1.5,
+                display: 'block',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-all',
+              }
+            }}
+          >
+            <code>
+              {JSON.stringify(errorDetails.details, null, 2)}
+            </code>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsErrorDialogOpen(false)}>关闭</Button>
         </DialogActions>
       </Dialog>
     </>
