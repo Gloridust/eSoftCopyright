@@ -33,7 +33,7 @@ const Header: React.FC = () => {
       <div className="bg-white shadow-lg rounded-full px-4 md:px-6 py-2 md:py-3 flex justify-between items-center transition-colors duration-200">
         <Link href="/" className="flex items-center">
           <span className="font-bold text-base md:text-lg text-gray-900 hover:text-primary transition-colors duration-200">
-            易著
+            易著AI
           </span>
         </Link>
 
