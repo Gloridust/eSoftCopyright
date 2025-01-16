@@ -48,8 +48,10 @@ ${code}
 9. 使用自然语言段落描述，避免过多的列表和标题
 10. 内容要充实，避免空洞和重复
 
+输出完整的文档内容，不要有任何省略。
 请使用 Markdown 格式输出，合理使用标题、段落、列表和代码块，使文档结构清晰易读。
-请用流畅的文字，完整地描述这个软件系统。注意突出其技术创新点和应用价值。`;
+请用流畅的文字，完整地描述这个软件系统。注意突出其技术创新点和应用价值。
+直接开始输出文档内容，不要有任何无关语句。`;
 
     // 创建流式响应
     const stream = await openai.chat.completions.create({
@@ -78,10 +80,10 @@ ${code}
 
 请继续使用 Markdown 格式输出，确保行文流畅，与前文自然衔接。
 文档尽量以自然语言段落的形式输出，避免分点。
-直接开始输出项目文档内容，不用输出其他无关语句。`;
+直接开始输出项目文档内容，不用输出其他无关语句。输出完整的文档内容，不要有任何省略。`;
 
     const continueStream = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'moonshot-v1-128k',
       messages: [
         { role: 'user', content: prompt },
         { role: 'assistant', content: '...' }, // 这里应该是之前生成的文档

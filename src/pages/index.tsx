@@ -295,7 +295,7 @@ export default function Home() {
                       height: 56,
                     }}
                   >
-                    开始尝试
+                    开始尝试（暂未开放）
                   </Button>
                 </Box>
               </Grid>

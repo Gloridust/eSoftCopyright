@@ -214,34 +214,25 @@ export default function Generate() {
 
       if (!planningResponse.ok) throw new Error('项目规划生成失败');
       
-      const planningReader = planningResponse.body?.getReader();
-      const planningDecoder = new TextDecoder();
+      // 使用 ReadableStream 处理流式响应
+      const planningReader = planningResponse.body
+        ?.pipeThrough(new TextDecoderStream())
+        .getReader();
       
       if (!planningReader) throw new Error('无法读取响应流');
 
-      let planningBuffer = ''; // 用于存储未完成的 UTF-8 字符
+      // 项目规划生成
       while (true) {
         const { done, value } = await planningReader.read();
         if (done) break;
         
-        // 将新的数据添加到缓冲区
-        planningBuffer += planningDecoder.decode(value, { stream: true });
-        
-        // 更新状态，触发重新渲染
+        // 直接更新状态，不需要缓存
         setGenerationContent(prev => ({
           ...prev,
-          planning: planningBuffer
+          planning: prev.planning + value
         }));
-
-        // 给浏览器一个渲染的机会
-        await new Promise(resolve => setTimeout(resolve, 0));
       }
-      // 处理最后剩余的数据
-      planningBuffer += planningDecoder.decode();
-      setGenerationContent(prev => ({
-        ...prev,
-        planning: planningBuffer
-      }));
+      
       setGenerationStatus(prev => ({ ...prev, planning: 'done' }));
 
       // 开始代码生成
@@ -258,34 +249,25 @@ export default function Generate() {
 
       if (!codeResponse.ok) throw new Error('代码生成失败');
       
-      const codeReader = codeResponse.body?.getReader();
-      const codeDecoder = new TextDecoder();
+      // 使用 ReadableStream 处理流式响应
+      const codeReader = codeResponse.body
+        ?.pipeThrough(new TextDecoderStream())
+        .getReader();
       
       if (!codeReader) throw new Error('无法读取响应流');
 
-      let codeBuffer = ''; // 用于存储未完成的 UTF-8 字符
+      // 代码生成
       while (true) {
         const { done, value } = await codeReader.read();
         if (done) break;
         
-        // 将新的数据添加到缓冲区
-        codeBuffer += codeDecoder.decode(value, { stream: true });
-        
-        // 更新状态，触发重新渲染
+        // 直接更新状态，不需要缓存
         setGenerationContent(prev => ({
           ...prev,
-          code: codeBuffer
+          code: prev.code + value
         }));
-
-        // 给浏览器一个渲染的机会
-        await new Promise(resolve => setTimeout(resolve, 0));
       }
-      // 处理最后剩余的数据
-      codeBuffer += codeDecoder.decode();
-      setGenerationContent(prev => ({
-        ...prev,
-        code: codeBuffer
-      }));
+      
       setGenerationStatus(prev => ({ ...prev, code: 'done' }));
 
       // 开始文档生成
@@ -303,34 +285,25 @@ export default function Generate() {
 
       if (!docResponse.ok) throw new Error('文档生成失败');
       
-      const docReader = docResponse.body?.getReader();
-      const docDecoder = new TextDecoder();
+      // 使用 ReadableStream 处理流式响应
+      const docReader = docResponse.body
+        ?.pipeThrough(new TextDecoderStream())
+        .getReader();
       
       if (!docReader) throw new Error('无法读取响应流');
 
-      let docBuffer = ''; // 用于存储未完成的 UTF-8 字符
+      // 文档生成
       while (true) {
         const { done, value } = await docReader.read();
         if (done) break;
         
-        // 将新的数据添加到缓冲区
-        docBuffer += docDecoder.decode(value, { stream: true });
-        
-        // 更新状态，触发重新渲染
+        // 直接更新状态，不需要缓存
         setGenerationContent(prev => ({
           ...prev,
-          doc: docBuffer
+          doc: prev.doc + value
         }));
-
-        // 给浏览器一个渲染的机会
-        await new Promise(resolve => setTimeout(resolve, 0));
       }
-      // 处理最后剩余的数据
-      docBuffer += docDecoder.decode();
-      setGenerationContent(prev => ({
-        ...prev,
-        doc: docBuffer
-      }));
+      
       setGenerationStatus(prev => ({ ...prev, doc: 'done' }));
 
     } catch (error) {
