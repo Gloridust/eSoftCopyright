@@ -227,7 +227,7 @@ export default function Home() {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: { xs: '98%', sm: '90%', md: '90%' },
+                          width: { xs: '99%', sm: '90%', md: '90%' },
                           maxWidth: '100%',
                           boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.08)}`,
                           transition: 'all 0.3s ease-in-out',
@@ -250,7 +250,8 @@ export default function Home() {
                             textAlign: 'center',
                           }}
                         >
-                          《{currentTitle}
+                          <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>《</Box>
+                          {currentTitle}
                           <Box
                             component="span"
                             sx={{
@@ -269,7 +270,7 @@ export default function Home() {
                             }}
                           >
                           </Box>
-                          》
+                          <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>》</Box>
                         </Box>
                       </Box>
                       
