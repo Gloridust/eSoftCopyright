@@ -535,10 +535,10 @@ export default function Generate() {
                   fontSize: { xs: '1.5rem', md: '2rem' },
                 }}
               >
-                正在生成中
+                {generationStatus.doc === 'done' ? '生成完成' : '正在生成中'}
               </Typography>
               <Typography color="text.secondary" sx={{ textAlign: 'center', mb: 0 }}>
-                请耐心等待，这可能需要几分钟时间
+                {generationStatus.doc === 'done' ? '您可以查看生成的内容' : '请耐心等待，这可能需要几分钟时间'}
               </Typography>
             </Paper>
 
