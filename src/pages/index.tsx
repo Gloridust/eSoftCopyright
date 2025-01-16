@@ -216,27 +216,28 @@ export default function Home() {
                           position: 'relative',
                           color: theme.palette.primary.main,
                           fontWeight: 600,
-                          fontSize: '1.25rem', // 字体大小
-                          px: 3, // 水平内边距
-                          py: 3, // 垂直内边距
+                          fontSize: '1.25rem',
+                          px: 3,
+                          py: 2,
                           borderRadius: 2,
                           bgcolor: alpha(theme.palette.primary.main, 0.05),
                           border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
-                          minHeight: '2.5em', // 最小高度
+                          minHeight: { xs: '3em', sm: '2.5em' },
+                          height: { xs: '3em', sm: 'auto' },
                           display: 'flex',
-                          alignItems: 'center', // 垂直居中
-                          justifyContent: 'center', // 水平居中
-                          width: { // 响应式宽度
-                            xs: '99%', // 手机端宽度
-                            sm: '90%', // 平板端宽度
-                            md: '90%'  // 桌面端宽度
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: {
+                            xs: '99%',
+                            sm: '90%',
+                            md: '90%'
                           },
-                          maxWidth: '100%', // 最大宽度
+                          maxWidth: '100%',
                           boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.08)}`,
-                          transition: 'all 0.3s ease-in-out', // 过渡动画
+                          transition: 'all 0.3s ease-in-out',
                           '&:hover': {
                             boxShadow: `0 6px 16px ${alpha(theme.palette.primary.main, 0.12)}`,
-                            transform: 'translateY(-1px)', // hover时上移1px
+                            transform: 'translateY(-1px)',
                           },
                         }}
                       >
@@ -244,13 +245,16 @@ export default function Home() {
                           component="span"
                           sx={{
                             position: 'relative',
-                            display: 'inline-block',
+                            display: 'inline-flex',
                             minWidth: '4em',
                             maxWidth: '100%',
                             wordBreak: 'break-all',
                             whiteSpace: 'pre-wrap',
                             lineHeight: 1.4,
                             textAlign: 'center',
+                            minHeight: { xs: '1.4em' },
+                            alignItems: 'center',
+                            justifyContent: 'center',
                           }}
                         >
                           <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>《 </Box>
