@@ -24,7 +24,7 @@ export default async function handler(
     res.setHeader('Connection', 'keep-alive');
 
     // 分离 system prompt 和 user prompt
-    const systemPrompt = `你是一个资深的软件架构师。你需要为软件项目进行简单的规划。你的规划应该包含：
+    const systemPrompt = `你是一个资深的软件架构师，正在规划一个项目，该项目以申请软著的标准做。你需要为软件项目进行简单的规划。你的规划应该包含：
 1. 分析标题可能涉及的具体功能和业务场景；
 2. 选择最适合的编程语言和技术栈，图形化软件优先做 nextjs yarn；
 3. 确定需要使用的框架和库；
