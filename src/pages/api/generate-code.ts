@@ -23,41 +23,46 @@ export default async function handler(
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
-    // 构建提示词
-    const prompt = `你是一个专业的全栈开发工程师，现在需要你为一个软件项目编写完整的代码。
+    const systemPrompt = `你是一个专业的全栈开发工程师。你需要根据项目规划编写完整的项目代码。代码要求：
+1. 代码结构清晰，包含必要的注释
+2. 实现规划中提到的所有主要功能
+3. 代码行数不少于1000行
+4. 代码符合最佳实践和设计模式
+5. 确保代码可以直接运行
+6. 尽可能多的代码行数，能写的逻辑优先重写完整逻辑，少用现成的包
+7. 使用 Markdown 格式输出，使用代码块包裹代码，代码块第一行说明该文件位置和名称
+8. 提供每个文件的完整代码，不要有任何省略`;
 
-项目标题：${title}
+    const userPrompt = `项目标题：${title}
 软件类型：${type === 'gui' ? '图形化软件' : '后端软件'}
 
 项目规划内容如下：
 ${planning}
 
-请根据以上规划，编写完整的项目代码。要求：
-1. 代码结构清晰，包含必要的注释
-2. 实现规划中提到的所有主要功能
-3. 代码行数不少于1000行
-4. ${type === 'gui' ? `
-   - 使用 Next.js 框架, yarn 包管理
-   - 实现美观的用户界面
-   - 添加适当的交互动画
-   - 使用虚拟数据作为演示
-   - 实现响应式布局
-   ` : `
-   - 实现完整的后端服务和算法逻辑
-   - 包含数据处理和模型训练代码
-   - 添加必要的测试用例
-   - 实现错误处理和日志记录
-   `}
-5. 代码符合最佳实践和设计模式
-6. 确保代码可以直接运行
-7. 尽可能多的代码行数，能写的逻辑优先重写完整逻辑，少用现成的包
-8. 请使用 Markdown 格式输出，使用代码块包裹代码，代码快第一行说明该文件位置和名称。
-9. 个实现每个文件的完整代码，不要有任何省略。`;
+${type === 'gui' ? `
+技术要求：
+- 使用 Next.js 框架, yarn 包管理
+- 实现美观的用户界面
+- 添加适当的交互动画
+- 使用虚拟数据作为演示
+- 实现响应式布局
+` : `
+技术要求：
+- 实现完整的后端服务和算法逻辑
+- 包含数据处理和模型训练代码
+- 添加必要的测试用例
+- 实现错误处理和日志记录
+`}
+
+请根据以上要求编写完整代码。`;
 
     // 创建流式响应
     const stream = await openai.chat.completions.create({
       model: 'gpt-4o',
-      messages: [{ role: 'user', content: prompt }],
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
       stream: true,
     });
 
@@ -70,23 +75,22 @@ ${planning}
       }
     }
 
-    // 检查代码长度，如果不足则继续生成
-    const continuePrompt = `
-请继续完善和扩展代码，添加更多功能和细节。要求：
+    // 修改继续生成的部分
+    const continuationSystemPrompt = `继续完善和扩展已生成的代码。要求：
 1. 添加更多的组件和工具函数
 2. 增加错误处理和边界情况
 3. 添加更多的注释和文档字符串
 4. 实现更多的辅助功能
 5. 添加单元测试代码
-
-请继续使用 Markdown 格式输出，保持代码风格一致。`;
+保持代码风格一致，使用 Markdown 格式输出。`;
 
     const continueStream = await openai.chat.completions.create({
       model: 'gpt-4o',
       messages: [
-        { role: 'user', content: prompt },
-        { role: 'assistant', content: '...' }, // 这里应该是之前生成的代码
-        { role: 'user', content: continuePrompt }
+        { role: 'system', content: continuationSystemPrompt },
+        { role: 'user', content: userPrompt },
+        { role: 'assistant', content: '...' }, // 之前生成的代码
+        { role: 'user', content: '请继续完善代码' }
       ],
       stream: true,
     });

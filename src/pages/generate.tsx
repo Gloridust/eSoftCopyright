@@ -121,8 +121,8 @@ export default function Generate() {
 
   // 验证标题
   const validateTitle = (value: string) => {
-    if (value.length > 20) {
-      setTitleError('标题不能超过20个字');
+    if (value.length > 24) {
+      setTitleError('标题不能超过24个字');
       return false;
     }
     if (/\s/.test(value)) {

@@ -23,11 +23,22 @@ export default async function handler(
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
-    // 构建提示词
-    const prompt = `你是一个专业的技术文档撰写专家，现在需要你为一个软件项目编写详细的说明文档，用于软件著作权申请。
-    现在，你需要根据所有代码（包括前端、后端等）写一篇说明文档，用于申请软著。你需要详细写出所有页面/模块说明、所用技术、技术优点等，尽可能详细。用自然语言文段描述（不要分点作答）。
-
-项目标题：${title}
+    // 分离 system prompt 和 user prompt
+    const systemPrompt = `你是一个专业的技术文档撰写专家。你需要为软件项目编写详细的说明文档，用于软件著作权申请。要求：
+1. 文档结构清晰，语言专业准确
+2. 详细说明软件的功能特点、技术特点、创新点
+3. 描述系统架构、模块组成、数据流程
+4. 重点突出软件的技术先进性和实用价值
+5. 说明所使用的关键技术、算法、框架
+6. 在必要的地方使用Mermaid绘制流程图，说明总体和局部代码运行原理
+7. 描述用户界面和交互流程（如果是图形化软件）
+8. 说明系统的性能、安全性、可扩展性等特点
+9. 文档字数不少于6000字
+10. 使用自然语言段落描述，避免过多的列表和标题
+11. 内容要充实，避免空洞和重复
+12. 按照成品项目的方式进行描述，不要说只是 demo 或者未完善；
+`;
+    const userPrompt = `项目标题：${title}
 软件类型：${type === 'gui' ? '图形化软件' : '后端软件'}
 
 项目规划内容：
@@ -36,27 +47,15 @@ ${planning}
 项目代码：
 ${code}
 
-请根据以上内容，编写一份详尽的软件说明文档。要求：
-1. 文档结构清晰，语言专业准确
-2. 详细说明软件的功能特点、技术特点、创新点
-3. 描述系统架构、模块组成、数据流程
-4. 重点突出软件的技术先进性和实用价值
-5. 说明所使用的关键技术、算法、框架，在必要的地方使用Mermaid绘制流程图，说明总体和局部代码运行原理
-6. 描述用户界面和交互流程（如果是图形化软件）
-7. 说明系统的性能、安全性、可扩展性等特点
-8. 文档字数不少于6000字
-9. 使用自然语言段落描述，避免过多的列表和标题
-10. 内容要充实，避免空洞和重复
-
-输出完整的文档内容，不要有任何省略。
-请使用 Markdown 格式输出，合理使用标题、段落、列表和代码块，使文档结构清晰易读。
-请用流畅的文字，完整地描述这个软件系统。注意突出其技术创新点和应用价值。
-直接开始输出文档内容，不要有任何无关语句。`;
+请根据以上内容，编写一份详尽的软件说明文档。`;
 
     // 创建流式响应
     const stream = await openai.chat.completions.create({
       model: 'gpt-4o',
-      messages: [{ role: 'user', content: prompt }],
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
       stream: true,
     });
 
@@ -70,24 +69,21 @@ ${code}
     }
 
     // 如果文档不够长，继续生成
-    const continuePrompt = `
-请继续扩展文档内容，补充更多细节。重点关注：
+    const continuationSystemPrompt = `继续扩展文档内容，补充更多细节。重点关注：
 1. 技术实现细节
 2. 系统优化措施
 3. 安全性设计
 4. 扩展性考虑
 5. 实际应用场景
-
-请继续使用 Markdown 格式输出，确保行文流畅，与前文自然衔接。
-文档尽量以自然语言段落的形式输出，避免分点。
-直接开始输出项目文档内容，不用输出其他无关语句。输出完整的文档内容，不要有任何省略。`;
+请确保行文流畅，与前文自然衔接。以自然语言段落形式输出，避免分点。`;
 
     const continueStream = await openai.chat.completions.create({
-      model: 'moonshot-v1-128k',
+      model: 'gpt-4o',
       messages: [
-        { role: 'user', content: prompt },
-        { role: 'assistant', content: '...' }, // 这里应该是之前生成的文档
-        { role: 'user', content: continuePrompt }
+        { role: 'system', content: continuationSystemPrompt },
+        { role: 'user', content: userPrompt },
+        { role: 'assistant', content: '...' }, // 之前生成的文档
+        { role: 'user', content: '请继续扩展文档内容,详细描述各部分内容' }
       ],
       stream: true,
     });

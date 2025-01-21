@@ -20,7 +20,7 @@ function sanitizeTitle(text: string): string {
     // 移除多余空格
     .trim()
     // 限制长度
-    .slice(0, 20);
+    .slice(0, 24);
 }
 
 export async function generateTitle(prompt: string): Promise<string> {
@@ -29,7 +29,7 @@ export async function generateTitle(prompt: string): Promise<string> {
     messages: [
       {
         role: 'system',
-        content: '你是一个软件著作权作品命名专家。根据用户的描述，生成一个专业的软件名称，不超过20个字。形如"基于CNN的页岩孔隙研究系统"。你需要思考其相关的尖端技术或算法，并在名称中体现具体的技术算法名称。只返回名称，不要其他解释和任何其余符号。'
+        content: '你是一个软件著作权作品命名专家。根据用户的描述，生成一个专业的软件名称，不超过24个字。形如"基于CNN的页岩孔隙研究系统"。你需要思考其相关的尖端技术或算法，并在名称中体现具体的技术算法名称。只返回名称，不要其他解释和任何其余符号。'
       },
       {
         role: 'user',
