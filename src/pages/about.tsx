@@ -50,7 +50,7 @@ const teamMembers = [
   {
     name: "Gloridust",
     role: "全栈开发",
-    avatar: "/avatar.png", // 请替换为实际头像路径
+    avatar: "/avatar.png",
     github: "https://github.com/Gloridust"
   }
 ];
