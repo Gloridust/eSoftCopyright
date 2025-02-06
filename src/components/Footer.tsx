@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 md:px-8 py-8">
         <div className="text-center text-gray-500 text-sm">
-          © {currentYear} 易著. All rights reserved.
+          © {currentYear} 易著AI. All rights reserved.
         </div>
       </div>
     </footer>

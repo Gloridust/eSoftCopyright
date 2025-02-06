@@ -1,6 +1,6 @@
 {
-  "name": "易著 - AI自动软著生成平台",
-  "short_name": "易著",
+  "name": "易著AI - 自动软著生成平台",
+  "short_name": "易著AI",
   "description": "基于AI技术的智能软件著作权文档生成工具",
   "start_url": "/",
   "display": "standalone",
