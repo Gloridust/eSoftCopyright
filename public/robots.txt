@@ -1,0 +1,10 @@
+# 允许所有搜索引擎爬虫访问所有内容
+User-agent: *
+Allow: /
+
+# 禁止访问特定目录
+Disallow: /api/
+Disallow: /_next/
+
+# 站点地图
+Sitemap: https://ecopyright.innovisle.net/sitemap.xml 

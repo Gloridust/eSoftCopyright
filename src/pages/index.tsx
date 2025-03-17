@@ -133,7 +133,14 @@ export default function Home() {
 
   return (
     <>
-      <SEO />
+      <SEO 
+        title="易著AI - 自动软著生成平台 | 几分钟内生成符合规范的软著文档"
+        description="易著AI是一款智能软件著作权文档生成工具，基于先进的AI技术，几分钟内即可生成符合规范的软著文档。提供快速生成、专业规范、智能优化等功能，让软著申请更轻松。"
+        keywords="软件著作权,软著,AI生成,易著AI,软著生成,知识产权,软件登记,易著,AI软著,软著文档,软著申请流程,自动生成"
+        ogImage="/home-og-image.png"
+        publishedTime="2024-01-01T00:00:00Z"
+        modifiedTime="2024-06-01T00:00:00Z"
+      />
       <Box className={geist.className} sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         {/* Hero Section */}
         <Box

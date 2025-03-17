@@ -1,7 +1,7 @@
 {
   "name": "易著AI - 自动软著生成平台",
   "short_name": "易著AI",
-  "description": "基于AI技术的智能软件著作权文档生成工具",
+  "description": "一款智能AI软件著作权文档生成工具，几分钟内即可生成符合规范的软著文档。",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -16,7 +16,8 @@
     {
       "src": "/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "orientation": "portrait",
@@ -29,6 +30,22 @@
       "type": "image/png",
       "platform": "wide",
       "label": "易著主界面"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "生成软著",
+      "short_name": "生成",
+      "description": "开始生成软著文档",
+      "url": "/generate",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "关于本站",
+      "short_name": "关于",
+      "description": "了解易著AI",
+      "url": "/about",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
     }
   ]
 } 

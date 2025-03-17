@@ -516,7 +516,13 @@ export default function Generate() {
 
   return (
     <>
-      <SEO title="生成软著 - 易著AI" description="填写表单，快速生成软著" />
+      <SEO 
+        title="生成软著文档 - 易著AI | 智能软著生成工具"
+        description="使用易著AI智能生成软件著作权文档，只需输入标题和选择软件类型，几分钟内即可获得符合规范的软著文档。支持图形化软件和后端软件类型。"
+        keywords="软著生成,软件著作权申请,AI生成软著,软著文档生成,软著申请工具,软著在线生成,软著自动生成"
+        ogImage="/generate-og-image.png"
+        ogType="website"
+      />
       {isGenerating ? (
         <Box 
           className={geist.className} 

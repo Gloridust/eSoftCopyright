@@ -61,8 +61,13 @@ export default function About() {
   return (
     <>
       <SEO 
-        title="关于本站 - 易著AI" 
-        description="了解易著AI的开发团队、技术栈和项目愿景"
+        title="关于易著AI - 团队介绍与技术栈 | 软著生成平台"
+        description="了解易著AI团队、技术栈和项目愿景。易著AI是一个基于人工智能的软件著作权文档生成工具，旨在帮助开发者快速、高效地完成软著申请文档。"
+        keywords="易著AI,软著生成团队,软著技术栈,AI软著,软著申请平台,软著生成工具,软件著作权,技术团队"
+        ogImage="/about-og-image.png"
+        ogType="website"
+        publishedTime="2024-01-01T00:00:00Z"
+        modifiedTime="2024-06-01T00:00:00Z"
       />
       <Box 
         className={geist.className} 
