@@ -17,7 +17,7 @@ const SEO: React.FC<SEOProps> = ({
   title = '易著AI - 自动软著生成平台',
   description = '一款智能AI软件著作权文档生成工具，几分钟内即可生成符合规范的软著文档。提供快速生成、专业规范、智能优化等功能，让软著申请更轻松。',
   keywords = '软件著作权,软著,大创,创新创业,AI生成,易著AI,软著生成,知识产权,软件登记,易著,AI软著,软著文档,软著申请流程',
-  ogImage = '/og-image.png',
+  ogImage = '/logo.jpg',
   noindex = false,
   ogType = 'website',
   publishedTime,
